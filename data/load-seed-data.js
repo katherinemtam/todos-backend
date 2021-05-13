@@ -2,7 +2,7 @@
 import client from '../lib/client.js';
 // import our seed data:
 import users from './users.js';
-
+import todosData from './todos.js';
 run();
 
 async function run() {
@@ -23,12 +23,12 @@ async function run() {
     const user = data[0].rows[0];
 
     await Promise.all(
-      todos.map(todo => {
+      todosData.map(todo => {
         return client.query(`
-        INSERT INTO todos (task, completed, userId, user_id)
-        VALUES ($1, $2, $3, $4)
+        INSERT INTO todos (task, completed, user_id)
+        VALUES ($1, $2, $3)
         `,
-        [todo.name, todo.type, todo.url, todo.year, todo.lives, todo.isSidekick, user.id]);
+        [todo.task, todo.completed, user.id]);
       })
     );
     
