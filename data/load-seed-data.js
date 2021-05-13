@@ -2,7 +2,6 @@
 import client from '../lib/client.js';
 // import our seed data:
 import users from './users.js';
-import cats from './cats.js';
 
 run();
 
@@ -24,12 +23,12 @@ async function run() {
     const user = data[0].rows[0];
 
     await Promise.all(
-      cats.map(cat => {
+      todos.map(todo => {
         return client.query(`
-        INSERT INTO cats (name, type, url, year, lives, is_sidekick, user_id)
-        VALUES ($1, $2, $3, $4, $5, $6, $7)
+        INSERT INTO todos (task, completed, userId, user_id)
+        VALUES ($1, $2, $3, $4)
         `,
-        [cat.name, cat.type, cat.url, cat.year, cat.lives, cat.isSidekick, user.id]);
+        [todo.name, todo.type, todo.url, todo.year, todo.lives, todo.isSidekick, user.id]);
       })
     );
     
