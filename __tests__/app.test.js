@@ -86,5 +86,18 @@ describe('API Routes', () => {
       expect(response2.status).toBe(200);
       expect(response2.body).toEqual([otherTodo]);
     });
+
+    it('PUT updated todo to /api/todos/:id', async () => {
+      todo.task = 'take out the trash';
+      todo.completed = true;
+
+      const response = await request
+        .put(`/api/todos/${todo.id}`)
+        .set('Authorization', user.token)
+        .send(todo);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(todo);
+    });
   });
 });
