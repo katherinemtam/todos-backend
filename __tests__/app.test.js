@@ -78,11 +78,11 @@ describe('API Routes', () => {
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(expect.not.arrayContaining([otherTodo]));
-      
+
       // we are testing user2's todos
       const response2 = await request.get('/api/me/todos')
         .set('Authorization', user2.token);
-      
+
       expect(response2.status).toBe(200);
       expect(response2.body).toEqual([otherTodo]);
     });
@@ -95,6 +95,15 @@ describe('API Routes', () => {
         .put(`/api/todos/${todo.id}`)
         .set('Authorization', user.token)
         .send(todo);
+
+      expect(response.status).toBe(200);
+      expect(response.body).toEqual(todo);
+    });
+
+    it('DELETE a todo from /api/todos/:id', async () => {
+      const response = await request
+        .delete(`/api/todos/${todo.id}`)
+        .set('Authorization', user.token);
 
       expect(response.status).toBe(200);
       expect(response.body).toEqual(todo);
